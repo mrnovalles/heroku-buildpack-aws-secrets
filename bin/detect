@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# this pack is valid when awscli is present
+if cmd=$(command -v aws); then
+  echo "AWS Secrets Manager"
+  exit 0
+else
+  exit 1
+fi
+
