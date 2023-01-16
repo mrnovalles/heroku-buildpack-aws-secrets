@@ -1,10 +1,9 @@
 #!/bin/sh
 
 # this pack is valid when awscli is present
-if cmd=$(command -v aws); then
-  echo "AWS Secrets Manager"
+if [ cmd=$(command -v aws) ] || [ cmd=$(command -v /app/.awscli/bin/aws) ]; then
+  echo "aws-cli installed"
   exit 0
 else
   exit 1
 fi
-
