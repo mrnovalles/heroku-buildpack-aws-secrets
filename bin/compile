@@ -15,6 +15,14 @@ read_env_var() {
   fi
   export "$var_name=$(cat $ENV_DIR/$var_name)"
 }
+write_to_profile() {
+  var_name=$1
+  secret=$2
+  if [ ! -d $BUILD_DIR/.profile.d/ ]; then
+    mkdir -p $BUILD_DIR/.profile.d/
+  fi
+  echo "export $var_name=$secret" >> $BUILD_DIR/.profile.d/env_vars.sh
+}
 
 write_secrets_to_profile() {
   read_env_var "AWS_ACCESS_KEY_ID"
@@ -25,10 +33,15 @@ write_secrets_to_profile() {
   while read -r var_name secret_arn
   do
     echo "Exporting $var_name ..." | indent
-    secret=$(aws secretsmanager get-secret-value --secret-id $secret_arn --output text | awk '{print $4}')
-    echo "export $var_name=$secret" >> $BUILD_DIR/.profile.d/env_vars.sh
+    secret=""
+    # TODO: Find a better way than setting test=true in compile_test.sh
+    if [ ! $test ]; then
+      secret=$(aws secretsmanager get-secret-value --output text --secret-id $secret_arn | awk '{print $4}')
+    fi
+    write_to_profile $var_name $secret
   done <<<"$AWS_SECRETS"
-
 }
+
 echo "-----> Fetching secrets using aws-cli"
 write_secrets_to_profile
+echo "done" | indent
