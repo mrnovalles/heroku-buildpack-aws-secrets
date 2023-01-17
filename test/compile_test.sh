@@ -13,5 +13,14 @@ afterSetUp() {
 testCompile() {
   compile
   assertCapturedSuccess
+  assertCaptured "Exporting VAR ..."
 }
+
+# TODO: Fix the exit code when aws breaks
+#testCompileWhenAwsCliBreaks() {
+#  unset test
+#  compile
+#  assertEquals 1 "${RETURN}"
+#  assertEquals "" "$(cat ${STD_ERR})"
+#}
 
