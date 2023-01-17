@@ -26,7 +26,7 @@ write_secrets_to_profile() {
   do
     echo "Exporting $var_name ..." | indent
     secret=$(aws secretsmanager get-secret-value --secret-id $secret_arn --output text | awk '{print $4}')
-    echo "export $var_name=$secret" > $BUILD_DIR/.profile.d/env_vars.sh
+    echo "export $var_name=$secret" >> $BUILD_DIR/.profile.d/env_vars.sh
   done <<<"$AWS_SECRETS"
 
 }
