@@ -33,7 +33,7 @@ Some [heroku config vars](https://devcenter.heroku.com/articles/config-vars) are
 A newline delimited list of env vars to be populated in your Heroku application environment as a key, and the AWS ARN of the secret that should be read for it.
 
 ```
-heroku config:set AWS_SECRETS="SECRET_PASSWORD=arn:awxes:secretsmanager:eu-west-1:111111111111:secret:heroku-secret-password-I14gzn
+heroku config:set AWS_SECRETS="SECRET_PASSWORD=arn:aws:secretsmanager:eu-west-1:111111111111:secret:heroku-secret-password-I28gzn
 ANOTHER_PASSWORD=arn:aws:secretsmanager:eu-west-1:111111111111:secret:heroku-another-password-I38asm"
 ```
 
